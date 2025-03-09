@@ -1,0 +1,4 @@
+venv/*
+reports/*
+pytest_xlsx_api.egg-info/*
+.idea/*
