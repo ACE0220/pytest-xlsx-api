@@ -1,5 +1,7 @@
+import json
 from abc import ABCMeta, abstractmethod
 
+# import allure
 import allure
 import pytest
 from pytest import FixtureRequest, Config
@@ -17,20 +19,29 @@ class ABCPlugin(metaclass=ABCMeta):
 
 # allure 插件
 class AllurePlugin(ABCPlugin):
-    @pytest.hookimpl(trylast=True)
+    @pytest.hookimpl(tryfirst=True)
     def pytest_control_run_step(self, step):
-        allure.feature(step["feature"])
-        allure.story(step["story"])
-        allure.title(step["title"])
-        allure.step(step["step"])
-        allure.severity(step["severity"])
-        allure.description(step["case_number"])
+        allure.dynamic.feature(step["feature"])
+        allure.dynamic.story(step["story"])
+        allure.dynamic.title(step["title"])
+        allure.dynamic.severity(step["severity"])
+        allure.attach(str(step["url"]),"url")
+        allure.attach(str(step["keyword"]),"keyword")
+        allure.attach(str(step["headers"]),"headers")
+        allure.attach(str(step["params"]),"params")
+        allure.attach(str(step["params_type"]),"params_type")
+        allure.attach(str(step["assertFields"]),"assertFields")
+        allure.attach(str(step["expected_value"]),"expected_value")
+        allure.attach(str(step["extract"]),"extract")
+        allure.attach(str(step["json_express"]),"json_express")
+        with allure.step(step["step"]):
+            ...
+        # pass
 
 # print 插件
 class PrintPlugin(ABCPlugin):
-    @pytest.hookimpl(tryfirst=True)
+    @pytest.hookimpl(trylast=True)
     def pytest_control_run_step(self, step):
-        print("-" * 10)
         print(f"feature:{step['feature']}")
         print(f"story:{step['story']}")
         print(f"case title:{step['title']}")
@@ -38,5 +49,5 @@ class PrintPlugin(ABCPlugin):
         print(f"case_number:{step['case_number']}")
         print(f"severity:{step['severity']}")
         print(f"step_number:{step['step_number']}")
-        print("=" * 20)
+        print("-" * 20)
 

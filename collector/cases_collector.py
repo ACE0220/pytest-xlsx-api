@@ -1,5 +1,5 @@
 import logging
-from typing import Iterable
+from typing import Iterable, Any, Generator
 import pytest
 from _pytest import nodes
 from pandas import DataFrame
@@ -45,5 +45,5 @@ class SheetStep(pytest.Item):
     def __init__(self, *, data, **kwargs):
         super().__init__(**kwargs)
         self.data = data
-    def runtest(self) -> None:
+    def runtest(self) -> Generator[Any, Any, None] | None:
         self.config.pluginmanager.hook.pytest_control_run_step(step=self.data)

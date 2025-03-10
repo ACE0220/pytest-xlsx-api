@@ -1,7 +1,7 @@
 from typing import Any
 
 _global_context = {
-    "TOKEN": "sldkjfsadlgkjalkdgj"
+    # "TOKEN": "sldkjfsadlgkjalkdgj"
 }
 
 def save_to_context(key: str, value: Any):

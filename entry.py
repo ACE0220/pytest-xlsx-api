@@ -47,7 +47,7 @@ def pytest_addoption(parser):
     )
     parser.addini(
         "is_execute_py",
-        default="False",
+        default="True",
         help="是否执行python格式测试用例",
     )
 
